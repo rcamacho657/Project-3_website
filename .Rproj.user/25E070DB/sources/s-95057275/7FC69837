@@ -5,14 +5,14 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "2675850633",
+    "hash" : "3940684065",
     "id" : "7FC69837",
-    "lastKnownWriteTime" : 1589530780,
-    "last_content_update" : 1589530780407,
+    "lastKnownWriteTime" : 1589531601,
+    "last_content_update" : 1589531601983,
     "path" : "~/Website Project 3/themes/hugo-sustain/layouts/partials/social.html",
     "project_path" : "themes/hugo-sustain/layouts/partials/social.html",
     "properties" : {
-        "cursorPosition" : "24,13",
+        "cursorPosition" : "11,6",
         "scrollLine" : "0"
     },
     "relative_order" : 5,

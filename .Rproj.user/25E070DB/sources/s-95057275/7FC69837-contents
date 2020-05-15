@@ -1,5 +1,21 @@
 <div class="social">
   <ul class="social-links">
+    {{ if .Site.Params.Social.facebook }}
+     <li><a href="https://www.facebook.com/{{ .Site.Params.Social.facebook }}"><i class="fa fa-facebook"></i></a></li>
+    {{ end }}
+    
+    {{ if .Site.Params.Social.Instagram }}
+      <li><a href="https://www.instagram.com/{{ .Site.Params.Social.Instagram }}"><i class="fa fa-instagram"></i></a></li>
+    {{ end }}
+    
+    {{ if .Site.Params.Social.Twitter }}
+      <li><a href="https://twitter.com/{{ .Site.Params.Social.Twitter }}"><i class="fa fa-twitter"></i></a></li>
+    {{ end }}
+    
+    {{ if .Site.Params.Social.LinkedIn }}
+      <li><a href="https://www.linkedin.com/in/{{ .Site.Params.Social.LinkedIn }}"><i class="fa fa-linkedin"></i></a></li>
+    {{ end }}
+    
     {{ if .Site.Params.Social.Github }}
       <li><a href="https://github.com/{{ .Site.Params.Social.Github }}"><i class="fa fa-github"></i></a></li>
     {{ end }}
@@ -7,21 +23,6 @@
     {{ if .Site.Params.Social.Email }}
       <li><a href="mailto:{{ .Site.Params.Social.Email }}"><i class="fa fa-envelope"></i></a></li>
     {{ end }}
-
-    {{ if .Site.Params.Social.Twitter }}
-      <li><a href="https://twitter.com/{{ .Site.Params.Social.Twitter }}"><i class="fa fa-twitter"></i></a></li>
-    {{ end }}
-
-    {{ if .Site.Params.Social.LinkedIn }}
-      <li><a href="https://www.linkedin.com/in/{{ .Site.Params.Social.LinkedIn }}"><i class="fa fa-linkedin"></i></a></li>
-    {{ end }}
     
-    {{ if .Site.Params.Social.Instagram }}
-    <li><a href="https://www.instagram.com/{{ .Site.Params.Social.Instagram }}"><i class="fa fa-instagram"></i></a></li>
-    {{ end }}
-
-    {{ if .Site.Params.Social.Instagram }}
-    <li><a href="https://www.facebook.com/{{ .Site.Params.Social.Instagram }}"><i class="fa fa-facebook"></i></a></li>
-    {{ end }}
   </ul>
 </div>
