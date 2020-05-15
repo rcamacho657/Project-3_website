@@ -1,0 +1,212 @@
+---
+title: 'Project 2: Modeling, Testing, and Predicting'
+author: Robert Camacho rgc843
+date: '2020-05-01'
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+hook_output = knit_hooks$get('output')
+knit_hooks$set(output = function(x, options) {
+  # this hook is used only when the linewidth option is not NULL
+  if (!is.null(n <- options$linewidth)) {
+    x = knitr:::split_lines(x)
+    # any lines wider than n should be wrapped
+    if (any(nchar(x) > n)) x = strwrap(x, width = n)
+    x = paste(x, collapse = '\n')
+  }
+  hook_output(x, options)
+})
+
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE,fig.align="center",warning=FALSE,message=FALSE,fig.width=8, fig.height=5, linewidth=60)
+options(tibble.width = 100,width = 100)
+library(tidyverse)
+```
+
+# Modeling
+
+## Instructions
+
+A knitted R Markdown document (as a PDF) and the raw R Markdown file (as .Rmd) should both be submitted to Canvas by 11:59pm on 5/1/2020. These two documents will be graded jointly, so they must be consistent (i.e., don’t change the R Markdown file without also updating the knitted document). Knit an html copy too, for later! In the .Rmd file for Project 2, you can copy the first code-chunk into your project .Rmd file to get better formatting. Notice that you can adjust the opts_chunk$set(...) above to set certain parameters if necessary to make the knitting cleaner (you can globally set the size of all plots, etc). You can copy the set-up chunk in Project2.Rmd: I have gone ahead and set a few for you (such as disabling warnings and package-loading messges when knitting)! 
+
+Like before, I envision your written text forming something of a narrative structure around your code/output. All results presented must have corresponding code. Any answers/results/plots etc. given without the corresponding R code that generated the result will not be graded. Furthermore, all code contained in your final project document should work properly. Please do not include any extraneous code or code which produces error messages. (Code which produces warnings is acceptable, as long as you understand what the warnings mean).
+
+## Find data:
+
+
+The dataset I found was the Faithfulfaces in the Stat2data library. This dataset consists of college students as they were asked to look at a photograph of an opposite-sex adult face and to rate the person, on a scale from 1 (low) to 10 (high), for attractiveness. They were also asked to rate trustworthiness, faithfulness, and sexual dimorphism (i.e., how masculine a male face is and how feminine a female face is). Overall, 68 students (34 males and 34 females) rated 170 faces (88 men and 82 women). This dataset consists of 7 variables and 170 observations. The SexDimorph variable measures the rating of sexual dimorphism (masculinity for males, femininity for females). The attract variable is the rating of attractiveness. The cheater variable is a variable that measured if the face subject was unfaihtful to the partner and it was rated using a 1=yes and a 0=no. The trust variable was rating the trustworthiness. The Faithful variable was the faithfulness. Lastly, the Ratersex variable showed the sex of the rater (F=female or M=male).
+
+
+## MANOVA Testing
+
+
+```{R}
+library(Stat2Data)
+data(FaithfulFaces)
+?FaithfulFaces
+man_faith <- manova(cbind(SexDimorph,Attract,Trust,Faithful)~FaceSex,data=FaithfulFaces)
+summary(man_faith)
+summary.aov(man_faith)
+pairwise.t.test(FaithfulFaces$Faithful,FaithfulFaces$FaceSex,p.adj="none")
+pairwise.t.test(FaithfulFaces$Trust,FaithfulFaces$FaceSex,p.adj="none")
+1-(.95)^16
+.05/16
+```
+
+
+*I ran a MANOVA test to evaluate to see if SexDimorph, attractfulness, trustfulness, and faithfulness had a mean difference against FaceSex. In running the test, there was a p-value present that was well below 0.05 and was 6.827e-08. After running the MANOVA test, an ANOVA was conduct to evaluate and see which variables had a mean difference. Only SexDimorph, Trust, and Faithful were the only variables that contained a mean difference while the variable Attract did not as it had a p-value of 0.4895 and the other p-values were below 0.05. Following the anova, a pairwise t test was perfomred for the varibales SexDimorph, Trust, and Faithful since they were the only variables that displayed a mean difference in the anova test. The pairwise t-test showed that all of those specific variables depicted a difference between males and females, as they were below 0.05.*
+
+
+## Randomized Testing
+
+```{R}
+FaithfulFaces%>%group_by(FaceSex)%>%summarize(mean_face=mean(Trust))
+4.444061-4.210591
+rand_dist<-vector()
+for(i in 1:5000){
+  Faith<-data.frame(sex=sample(FaithfulFaces$FaceSex),Trust=FaithfulFaces$Trust)
+  rand_dist[i]<-mean(Faith[Faith$sex=="F",]$Trust)-
+  mean(Faith[Faith$sex=="M",]$Trust)}
+mean(rand_dist>0.23347)*2
+{hist(rand_dist,main="",ylab="");abline(v=0.23347,col="red")}
+```
+
+
+*Utilizing the randomized test, the test gathered a sample of FaceSex and pulled it 5,000 times and then evaluated the mean of both sexes from the Trust variable and subtracted them to find the difference. After running a randomized test, the p-value of a two-tailed test was less than 0.05, as it was 0.0564. The histogram was then displayed to show the null distribution and test statistic. The null hypothesis is that there is no difference in the Trust varibale in males and females. The alternative hypothesis is that there is a difference in the Trust varibale in males and females. In evaluation of the randomized test and the p-value, we can reject the null hypothesis.*
+
+
+## Linear Regression
+
+```{R}
+library(sandwich)
+library(lmtest)
+fit <- lm(Attract~Trust*FaceSex, data=FaithfulFaces)
+coef(fit)
+ggplot(fit, aes(x=Trust, y=Attract, color = FaceSex)) +
+    geom_point(shape=1) +
+    geom_smooth(method=lm,se=FALSE)
+resids<-fit$residuals
+fitvals<-fit$fitted.values
+ggplot()+geom_point(aes(fitvals,resids))+geom_hline(yintercept=0, color='red')
+ggplot()+geom_histogram(aes(resids), bins=20)
+ggplot()+geom_qq(aes(sample=resids))+geom_qq_line()
+summary(fit)$coef[,1:2] #uncorrected
+coeftest(fit, vcov = vcovHC(fit))[,1:2] #corrected
+```
+
+
+*After running a linear regression, the coefficent estimates for Trust was 0.355250, FaceSex for males was -0.2845297, and the Trust:FaceSex M was 0.1092399. A plot of Trust vs Attract in males and females was perfomred and from observation of the graph, there seemed to be a higher interaction in males than in females. Assumptions were analyzed, and everything was observed to be normal.*
+
+
+## Bootstrapping Standard Error
+
+```{R}
+boot_face<-FaithfulFaces[sample(nrow(FaithfulFaces),replace=TRUE),]
+samp_distn<-replicate(5000, {
+  boot_face<-FaithfulFaces[sample(nrow(FaithfulFaces),replace=TRUE),]
+  fit2<-lm(Attract~Trust*FaceSex,data=FaithfulFaces)
+  coef(fit2)
+})
+samp_distn%>%t%>%as.data.frame%>%summarize_all(sd)
+```
+
+
+## Logistic Regression
+
+```{R}
+fit2<-glm(Cheater~Attract+Trust+Faithful, data=FaithfulFaces, family="binomial")
+coeftest(fit2)
+#confusion matrix
+prob <- predict(fit2,type="response")
+table(predict=as.numeric(prob>.5),truth=FaithfulFaces$Cheater)%>%addmargins
+
+
+class_diag<-function(prob,truth){ 
+  tab<-table(factor(prob>.5,levels=c("FALSE","TRUE")),truth)
+  acc=sum(diag(tab))/sum(tab)
+  sens=tab[2,2]/colSums(tab)[2] 
+  spec=tab[1,1]/colSums(tab)[1] 
+  ppv=tab[2,2]/rowSums(tab)[2]
+  if(is.numeric(truth)==FALSE & is.logical(truth)==FALSE) truth<-as.numeric(truth)-1
+
+  ord<-order(prob, decreasing=TRUE)
+  prob <- prob[ord]; truth <- truth[ord]
+  TPR=cumsum(truth)/max(1,sum(truth))
+  FPR=cumsum(!truth)/max(1,sum(!truth))
+  dup<-c(prob[-1]>=prob[-length(prob)], FALSE)
+  TPR<-c(0,TPR[!dup],1); FPR<-c(0,FPR[!dup],1)
+  n <- length(TPR)
+  auc<- sum( ((TPR[-1]+TPR[-n])/2) * (FPR[-1]-FPR[-n]) )
+  data.frame(acc,sens,spec,ppv,auc)
+}
+
+library(plotROC)
+RocPlot <- ggplot(FaithfulFaces)+geom_roc(aes(d=Cheater,m=prob),n.cut=0)
+RocPlot
+calc_auc(RocPlot)
+
+
+#10-fold
+set.seed(1234)
+k=10
+
+data1<-FaithfulFaces[sample(nrow(FaithfulFaces)),] 
+folds<-cut(seq(1:nrow(FaithfulFaces)),breaks=k,labels=FALSE)  
+diags<-NULL
+for(i in 1:k){
+  train<-data1[folds!=i,]
+  test<-data1[folds==i,]
+  truth<-test$Cheater
+
+  fit3<-glm(Cheater~.,data=FaithfulFaces,family="binomial")
+  probs2<-predict(fit3,newdata = test,type="response")
+  
+  diags<-rbind(diags,class_diag(probs2,truth))
+}
+apply(diags,2,mean)
+
+```
+
+
+*A logistic regression was performed and in this occurence, the intercepts depict the interactions of attractfullness and trustfulness in a cheater. The intercept for attract was -0.18216, the intercept for trust was 0.11510, and the intercept for faithful was -0.33650. The accuracy, which was 0.7058824, sensitivity, which was 0, specificity, which was 1, and the auc, which was 0.5633333, were all computed. The auc is not as good since it is so low. Following the running of the 10-fold, the auc seemed to remain the same and there was no difference.*
+
+
+
+## LASSO
+```{R}
+library(glmnet)
+x <- model.matrix(fit)[,-1]
+y<-as.matrix(FaithfulFaces$Cheater)
+cv<-cv.glmnet(x,y,family='binomial')
+lasso1<-glmnet(x,y,family='binomial',lambda=cv$lambda.1se)
+coef(lasso1)
+
+set.seed(1234)
+k=10
+
+data2<-FaithfulFaces[sample(nrow(FaithfulFaces)),]
+folds<-cut(seq(1:nrow(FaithfulFaces)),breaks=k,labels=F)
+diags<-NULL
+for(i in 1:k){ 
+  train2<-data2[folds!=i,]  
+  test2<-data2[folds==i,] 
+  truth2<-test2$Cheater
+  probs3<- predict(fit,newdata=test2, type="response")
+  diags<-rbind(diags,class_diag(probs3,truth2))
+}
+
+apply(diags,2,mean)
+```
+
+
+*A lasso regression was performed and the observnace of the auc was lower than the one that was calculated in the logistic regression. The auc in the lasso regression is 0.4573660 and the auc in the logistic regression was above 0.50 and after running the 10-fold as well, and it seemed that the accuracy was not as high when running the logistic regression.*
+
+

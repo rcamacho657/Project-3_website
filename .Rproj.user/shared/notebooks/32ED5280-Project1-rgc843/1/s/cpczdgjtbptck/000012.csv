@@ -1,0 +1,1 @@
+"0","MCAT_GPA %>% group_by(Accept, Sex) %>% summarize(mean_GPA=mean(GPA),sd_GPA=sd(GPA), var_GPA=var(GPA), max_GPA=max(GPA), min_GPA=min(GPA), quan_GPA=quantile(GPA, .85), n_dist_GPA=n_distinct(GPA), n(), cor_GPA=cor(Apps, GPA), median_GPA=median(GPA), mad_GPA=mad(GPA))"

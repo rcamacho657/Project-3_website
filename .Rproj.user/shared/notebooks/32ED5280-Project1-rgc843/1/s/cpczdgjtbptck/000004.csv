@@ -1,0 +1,1 @@
+"0","MCAT_GPA%>%dplyr::select(""GPA"", ""Sex"", ""Accept"" )%>%arrange(desc(GPA))"

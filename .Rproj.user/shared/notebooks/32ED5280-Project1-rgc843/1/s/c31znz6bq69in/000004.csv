@@ -1,0 +1,1 @@
+"0","ggplot(MCAT_GPA, aes(MCAT,GPA)) + geom_point(aes(color=Accept, size=Apps)) +ggtitle(""MCAT vs. GPA According to Applications Submitted and Sex of Students"")+theme_minimal()+ scale_color_brewer(palette=""Set1"") +scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +scale_y_continuous(breaks = scales::pretty_breaks(n = 10))"

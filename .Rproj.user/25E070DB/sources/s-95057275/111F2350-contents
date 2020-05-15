@@ -1,0 +1,116 @@
+---
+title: "Project 1"
+author: "Robert Camacho rgc843"
+date: "3/1/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+###Introduction:
+```{r}
+library(tidyverse)
+library(knitr)
+library(tidyr)
+library(ggplot2)
+library(dplyr)
+
+library(readr)
+Student_GPA <- read_csv("~/Project 1 info/Student_GPA.csv")
+View(Student_GPA)
+library(readr)
+Student_MCAT <- read_csv("~/Project 1 info/Student_MCAT.csv")
+View(Student_MCAT)
+
+```
+*The dataset chosen was a dataset from https://vincentarelbundock.github.io/Rdatasets/datasets.html. The reason for choosing this specific dataset is because I am taking the MCAT in the summer and was curious on datasets relating to applying to med school and acceptance statistics. There are 12 variables in addition to the common variable of ID so there are 13 variables overall. The two datasets were originally from the same dataset, but they were split into two sets to be merged, one focusing on the GPA of students and the other focusing on the MCAT scores. The first dataset Student_GPA contains the variables of  ID, Accept, Acceptance, Sex, GPA, BCPM, and Apps. ID represents the identification number of the student, Acceptance reflects if they were accepted or not by displaying a “1” if accepted and a “0” if denied, and Accept displays two characters, “A” for accepted students and “D” for denied students. The Sex variable is in reference to the sex of the student split up into males and females, GPA is the overall GPA of the student, BCPM is the GPA calculated from classes such as biology, chemistry, physics, and math, and finally the Apps is the variable that takes into account the number of applications each student filled out. In the second dataset of Student_MCAT, the variables in this dataset are MCAT, VS, PS, WS, BS and ID. MCAT is the variable resenting the total MCAT score, VS is the verbal reasoning sub score from the MCAT, PS is the physical science sub score from the MCAT, WS is the writing sample sub score from the MCAT, and  BS is the biological science sub score from the MCAT. I am expecting to see a correlation between GPA and MCAT scores, MCAT scores and Acceptance, and between GPA and Acceptance. I speculate that males and females will have the same likeliness of getting accepted into medical school with the same GPA and MCAT scores.*
+
+
+###Tidying:
+```{R}
+Student_GPA <-Student_GPA%>%pivot_wider(names_from = "Sex", values_from = "GPA")%>%glimpse()
+Student_GPA <-Student_GPA%>%pivot_longer(c("M","F"),names_to = "Sex",values_to = "GPA", values_drop_na=T ) %>%glimpse()
+```
+*The data set was already tidy so I had to pivot_wider() to gives males and females their own columns to their relative GPAs. I then pivot_longer() to place the males and females back into the column “Sex”. This allowed the data to be easily understood and tidy once again. The inclusion of values_drop_na=T was necessary to omit the NAs when pivot_longer() was used.*
+
+
+###Joining:
+```{R}
+MCAT_GPA<-full_join(Student_MCAT,Student_GPA, by="ID")
+glimpse(MCAT_GPA)
+```
+*I joined both datasets, Student_MCAT and Student_GPA, through the full_join() and joining through the common varibale of "ID". Reason being is becasue the data had only one vairbale in common and each subset of data had their own unique collection of vairbales with only one in common. Any NAs in the data omitted in the following steps.*
+
+###Wrangling:
+```{r}
+MCAT_GPA<- MCAT_GPA %>% filter(complete.cases(MCAT_GPA))
+MCAT_GPA%>%arrange(desc(MCAT))
+MCAT_GPA%>%dplyr::select("GPA", "Sex", "Accept" )%>%arrange(desc(GPA))
+MCAT_GPA%>%group_by(Accept, Sex)%>%summarize(mean_Apps=mean(Apps, na.rm=T),mean_GPA=mean(GPA, na.rm=T))
+MCAT_GPA%>%summarise_all(n_distinct)
+MCAT_GPA%>% mutate_if(is.numeric, round)
+
+MCAT_GPA %>% group_by(Accept) %>% summarize(sd_GPA=sd(GPA), mean_GPA=mean(GPA), var_GPA=var(GPA), max_GPA=max(GPA), min_GPA=min(GPA), quan_GPA=quantile(GPA, .85), n_dist_GPA=n_distinct(GPA), n(), cor_GPA=cor(Apps, GPA), median_GPA=median(GPA), mad_GPA=mad(GPA))
+
+MCAT_GPA %>% group_by(Accept, Sex) %>% summarize(sd_GPA=sd(GPA), mean_GPA=mean(GPA), var_GPA=var(GPA), max_GPA=max(GPA), min_GPA=min(GPA), quan_GPA=quantile(GPA, .85), n_dist_GPA=n_distinct(GPA), n(), cor_GPA=cor(Apps, GPA), median_GPA=median(GPA), mad_GPA=mad(GPA))
+
+MCAT_GPA %>% group_by(Accept) %>% summarize(mean_GPA=mean(GPA),sd_GPA=sd(GPA), var_GPA=var(GPA), max_GPA=max(GPA), min_GPA=min(GPA), quan_GPA=quantile(GPA, .85), n_dist_GPA=n_distinct(GPA), n(), cor_GPA=cor(Apps, GPA), median_GPA=median(GPA), mad_GPA=mad(GPA))
+
+MCAT_GPA %>% group_by(Accept, Sex) %>% summarize(mean_GPA=mean(GPA),sd_GPA=sd(GPA), var_GPA=var(GPA), max_GPA=max(GPA), min_GPA=min(GPA), quan_GPA=quantile(GPA, .85), n_dist_GPA=n_distinct(GPA), n(), cor_GPA=cor(Apps, GPA), median_GPA=median(GPA), mad_GPA=mad(GPA))
+
+MCAT_GPA %>% group_by(Accept) %>% summarize(sd_BCPM=sd(BCPM), mean_BCPM=mean(BCPM), var_BCPM=var(BCPM), max_BCPM=max(BCPM), min_BCPM=min(BCPM), quan_BCPM=quantile(BCPM, .85), n_dist_BCPM=n_distinct(BCPM), n(), cor_BCPM=cor(Apps, BCPM), median_BCPM=median(BCPM), mad_BCPM=mad(BCPM))
+
+MCAT_GPA %>% group_by(Accept,Sex) %>% summarize(sd_BCPM=sd(BCPM), mean_BCPM=mean(BCPM), var_BCPM=var(BCPM), max_BCPM=max(BCPM), min_BCPM=min(BCPM), quan_BCPM=quantile(BCPM, .85), n_dist_BCPM=n_distinct(BCPM), n(), cor_BCPM=cor(Apps, BCPM), median_BCPM=median(BCPM), mad_BCPM=mad(BCPM))
+
+```
+*The required dplyr functions of filter(), mutate(), select(), arrange(), group_by(), and summarize() were used to manipulate and examine the joined data of MCAT_GPA. For each of the 6  runs all 10 different summary variables such as mean, sd, var, max, min, quantile, n_distinct, cor, median, and mad were displayed. Though I have 8 variables, I chose to display and group all of these analyses by using the categorical variable of “Accept” and then use both “Accept” and “Sex” categorical variables together. Through the 6 runs, I decided to compute GPA, MCAT score and BCPM GPA. It was interesting to see the acceptance of students through analysis of sex and if they were accepted or denied. It was interesting to see that the average GPA for accepted males was higher than females and even the MCAT score as well yet the denied statistics in reference to GPA and MCAT score were relatively close. Overall it seemed males needed higher GPA and MCAT scores to be acted in reference to accepted females.*
+
+###Visualizing:
+```{r}
+MCAT_GPA %>% select_if(is.numeric) %>% cor %>% as.data.frame %>% rownames_to_column %>% pivot_longer(-1) %>% ggplot(aes(rowname, name, fill=value)) + geom_tile() + geom_text(aes(label=round(value, 2))) + xlab("") + ylab("") + scale_fill_gradient2(low="green", high="orange") +ggtitle("Correlation Heatmap of the Numeric Variables in the MCAT_GPA Dataset")  
+
+ggplot(MCAT_GPA, aes(MCAT,GPA)) + geom_point(aes(color=Accept, size=Apps)) +ggtitle("MCAT vs. GPA According to Applications Submitted and Sex of Students")+theme_minimal()+ scale_color_brewer(palette="Set1") +scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +scale_y_continuous(breaks = scales::pretty_breaks(n = 10))
+
+ggplot(MCAT_GPA, aes(x=Acceptance, y=GPA, fill=Sex)) +geom_bar(stat="summary", fun.y="mean")+geom_errorbar(stat="summary")+ ggtitle("GPA vs. Acceptance for Pre-Med Students")+theme_dark()+ scale_fill_brewer(palette="OrRd")
+
+```
+*The first visualization displays a correlation heatmap of my numeric variables in the MCAT_GPA dataset. In analysis of this visualization, there is a visible strong correlation between BCPM and MCAT score. The second strongest correlation is between PS (physical science) and MCAT. This is fascinating because the physical science section of the MCAT is understood to be the most complex section that many may struggle with. According to the data, if one could do well on the PS section then their likelihood of doing well on the MCAT are high. It was interesting to not see a great correlation between the GPA and Acceptance as well as the MCAT and Acceptance.
+
+THe second visualization was a scatterplot displaying “MCAT vs. GPA” in accordance to numbers of Apps and Acceptance. It was interesting to see a slight positive correction of MCAT score and GPA. The more interesting is the analysis of acceptance and denials with the analysis of the GPA and MCAT score. Although the obvious data of having a high MCAT score and a high GPA give a high chance of acceptances, there seems to be a large area of uncertainty of acceptance with a GPA of 3.6 and a MCAT score of 36. This is interesting because it displays the importance of doing well in both GPA and MCAT score to increase likeliness of acceptance. A finer line of acceptance or denial of students would be expected but it may seem that the plot doesn’t not display that. The submissions of applications could perhaps way on that uncertainty by applying more, perhaps could allow of greater chance of acceptance if a student is in the center mark of GPA and MCAT scores
+
+The third and final visualization is “GPA vs. Acceptance of Pre-Med Students”. The plot displays that GPAs below a 3.5 are less likely to be admitted in reference to students with 3.75 GPAs. This plot shows an equal spilt and likeliness for males and females being accepted or denied.*
+
+###Dimentionality Reduction:
+```{r}
+library(cluster)
+library(tidyverse)
+library(GGally)
+library(dplyr)
+
+pam2<-MCAT_GPA%>%dplyr::select(-ID, -Accept, -Acceptance, -Sex)%>%pam(3)
+
+sil_width<-vector() 
+for(i in 2:10){
+pam_fit <- MCAT_GPA%>%dplyr::select(-ID, -Accept, -Acceptance, -Sex)%>%pam(i)
+sil_width[i] <- pam_fit$silinfo$avg.width }
+ggplot()+geom_line(aes(x=1:10,y=sil_width))+scale_x_continuous(name="k",breaks=1:10)
+
+PAMFINAL<-MCAT_GPA%>%mutate(cluster=as.factor(pam2$clustering))
+
+confmat<-PAMFINAL%>%group_by(Accept, ID, Sex, Acceptance)%>%count(cluster)%>%arrange(desc(n))%>%
+pivot_wider(names_from="cluster",values_from="n",values_fill = list('n'=0))
+
+confmat
+
+ggplot(PAMFINAL, aes(x=MCAT,y=GPA, color=cluster))+ ggtitle("GPA vs. MCAT")+geom_point()
+plot(pam2,which=2)
+ggpairs(PAMFINAL, columns=5:12, aes(color=cluster))
+```
+*There were 3 clusters chosen according to the sil_width graph. The average silhouette width for the data I chose was .32 in reference to the silhouette plot of pam(x= ., k=3), and in analysis of this key value, “the structure is weak and could be artificial.” In reference to the analysis, 3 clusters returned the highest average silhouette width value, which is the reason why I chose to go with 3. A visualization of all pairwise combination of the 8 numeric variables was performed. The correlation of MCAT and GPA was the most impressive. It showed a direct linear correlation between the two variables. This would make sense considering that pre-med students aim to do the best in their science/math courses. Additionally, there was a very unique and distinct correlation between Apps and MCAT. It seems that students who had poor MCAT scores submitted very few applications, and the same is true for those who did well on the MCAT. Students who had an intermediate performance on the MCAT submitted the greatest number of applications. This makes sense to me because I understand that those who did not do well on the MCAT probably applied to few schools in expectation to be denied. Students who did really well probably had the freedom to apply to fewer schools, assuming many schools would accept them based on their MCAT performance. Overall, it can be assumed that those with an intermediate MCAT score applied to as many places as possible in hopes of getting into at least one school.*
+
+```{R}

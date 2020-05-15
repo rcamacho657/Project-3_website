@@ -1,0 +1,1 @@
+"0","MCAT_GPA%>%group_by(Accept, Sex)%>%summarize(mean_Apps=mean(Apps, na.rm=T),mean_GPA=mean(GPA, na.rm=T))"

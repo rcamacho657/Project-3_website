@@ -1,0 +1,2 @@
+"0","MCAT_GPA<- MCAT_GPA %>% filter(complete.cases(MCAT_GPA))"
+"0","MCAT_GPA%>%arrange(desc(MCAT))"

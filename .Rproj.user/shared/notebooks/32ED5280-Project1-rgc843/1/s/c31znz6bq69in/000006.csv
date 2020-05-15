@@ -1,0 +1,2 @@
+"0","ggplot(MCAT_GPA, aes(x=Acceptance, y=GPA, fill=Sex)) +geom_bar(stat=""summary"", fun.y=""mean"")+geom_errorbar(stat=""summary"")+ ggtitle(""GPA vs. Acceptance for Pre-Med Students"")+theme_dark()+ scale_fill_brewer(palette=""OrRd"")"
+"2","Ignoring unknown parameters: fun.y"

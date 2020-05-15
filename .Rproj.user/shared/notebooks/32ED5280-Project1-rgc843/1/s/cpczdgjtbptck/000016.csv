@@ -1,0 +1,1 @@
+"0","MCAT_GPA %>% group_by(Accept,Sex) %>% summarize(sd_BCPM=sd(BCPM), mean_BCPM=mean(BCPM), var_BCPM=var(BCPM), max_BCPM=max(BCPM), min_BCPM=min(BCPM), quan_BCPM=quantile(BCPM, .85), n_dist_BCPM=n_distinct(BCPM), n(), cor_BCPM=cor(Apps, BCPM), median_BCPM=median(BCPM), mad_BCPM=mad(BCPM))"

@@ -1,0 +1,22 @@
+git add.
+git: 'add.' is not a git command. See 'git --help'.
+
+The most similar command is
+	add
+]0;/stor/home/rgc843/Website Project 3]0;rgc843@educcomp03: ~/Website Project 3[01;32mrgc843@educcomp03[00m:[01;34m~/Website Project 3[00m$ git commit -m "first tyr[K[Kry'[K"
+On branch master
+
+Initial commit
+
+Untracked files:
+	[31m.Rproj.user/[m
+	[31mWebsite Project 3.Rproj[m
+	[31mconfig.toml[m
+	[31mcontent/[m
+	[31mindex.Rmd[m
+	[31mpublic/[m
+	[31mstatic/[m
+	[31mthemes/[m
+
+nothing added to commit but untracked files present
+]0;/stor/home/rgc843/Website Project 3]0;rgc843@educcomp03: ~/Website Project 3[01;32mrgc843@educcomp03[00m:[01;34m~/Website Project 3[00m$ git add .

@@ -1,0 +1,1 @@
+"0","MCAT_GPA %>% select_if(is.numeric) %>% cor %>% as.data.frame %>% rownames_to_column %>% pivot_longer(-1) %>% ggplot(aes(rowname, name, fill=value)) + geom_tile() + geom_text(aes(label=round(value, 2))) + xlab("""") + ylab("""") + scale_fill_gradient2(low=""green"", high=""orange"") +ggtitle(""Correlation Heatmap of the Numeric Variables in the MCAT_GPA Dataset"")  "

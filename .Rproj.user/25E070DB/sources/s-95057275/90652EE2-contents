@@ -1,0 +1,26 @@
+---
+title: My New Post
+author: ''
+date: '2020-05-15'
+slug: my-new-post
+categories: []
+tags: []
+description: ''
+---
+put somehting in here
+![](/./projects_files/61014000777__37D60FAE-34E3-4D7F-BB03-AAD7467B6A64.JPG)
+
+```{python}
+print("hello world")
+x="dog"
+```
+
+```{R}
+library(reticulate)
+py$x
+y<-2
+```
+
+```{python}
+r.y+1==3
+```
