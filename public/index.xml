@@ -12,12 +12,12 @@
     
     
     <item>
-      <title>My New Post</title>
+      <title>The Communication between R and Python: A Story of True Love</title>
       <link>/blog/my-new-post/</link>
       <pubDate>Fri, 15 May 2020 00:00:00 +0000</pubDate>
       
       <guid>/blog/my-new-post/</guid>
-      <description> put somehting in here print(&amp;quot;hello world&amp;quot;) ## hello world x=&amp;quot;dog&amp;quot; library(reticulate) py$x ## [1] &amp;quot;dog&amp;quot; y&amp;lt;-2 r.y+1==3 ## True </description>
+      <description>Have you ever been curious about how R and python are able to communicate with each other, well me too. Let’s try to explain their communication process, we can say that R and python are two different people and these two different are named Anna and Hans. Yes, these are the characters from the movie Frozen and yes this is corny, but there is a reason for this wacky explanation.</description>
     </item>
     
     <item>
@@ -45,7 +45,9 @@
       
       <guid>/projects/</guid>
       <description>Projects Here are some of my projects that I have recently completed:
- Project 1: Exploratory Data Analysis Project 2: Modeling  </description>
+  Project 1: Exploratory Data Analysis through use of Tidyverse Tools
+  Project 2: Modeling, Testing, and Classification
+  </description>
     </item>
     
   </channel>

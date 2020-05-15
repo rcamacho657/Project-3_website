@@ -10,5 +10,7 @@ title: Projects
 
 ## Projects
 Here are some of my projects that I have recently completed:
-- [ Project 1: Exploratory Data Analysis](/project1/)
-- [ Project 2: Modeling](/project2/)
+
+- [ Project 1: Exploratory Data Analysis through use of Tidyverse Tools](/project1/)
+
+- [ Project 2: Modeling, Testing, and Classification](/project2/)
