@@ -410,3 +410,31 @@ remote: Resolving deltas:   0% (0/31)[Kremote: Resolving deltas:   6% (2/31)[
 To https://github.com/rcamacho657/Project-3_website.git
    bd50645..0862348  master -> master
 ]0;/stor/home/rgc843/Website Project 3]0;rgc843@educcomp03: ~/Website Project 3[01;32mrgc843@educcomp03[00m:[01;34m~/Website Project 3[00m$ got[K[Kit add .
+]0;/stor/home/rgc843/Website Project 3]0;rgc843@educcomp03: ~/Website Project 3[01;32mrgc843@educcomp03[00m:[01;34m~/Website Project 3[00m$ commit[K[K[K[K[K[Kgit commit -m"third try"
+[master ad83b12] third try
+ Committer: Robert Camacho <rgc843@educcomp03.ccbb.utexas.edu>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 6 files changed, 67 insertions(+), 10 deletions(-)
+]0;/stor/home/rgc843/Website Project 3]0;rgc843@educcomp03: ~/Website Project 3[01;32mrgc843@educcomp03[00m:[01;34m~/Website Project 3[00m$ git push origin master
+Username for 'https://github.com': rcamacho657
+Password for 'https://rcamacho657@github.com': 
+Counting objects: 18, done.
+Delta compression using up to 32 threads.
+Compressing objects:   5% (1/17)   Compressing objects:  11% (2/17)   Compressing objects:  17% (3/17)   Compressing objects:  23% (4/17)   Compressing objects:  29% (5/17)   Compressing objects:  35% (6/17)   Compressing objects:  41% (7/17)   Compressing objects:  47% (8/17)   Compressing objects:  52% (9/17)   Compressing objects:  58% (10/17)   Compressing objects:  64% (11/17)   Compressing objects:  70% (12/17)   Compressing objects:  76% (13/17)   Compressing objects:  82% (14/17)   Compressing objects:  88% (15/17)   Compressing objects:  94% (16/17)   Compressing objects: 100% (17/17)   Compressing objects: 100% (17/17), done.
+Writing objects:   5% (1/18)   Writing objects:  11% (2/18)   Writing objects:  16% (3/18)   Writing objects:  22% (4/18)   Writing objects:  27% (5/18)   Writing objects:  33% (6/18)   Writing objects:  38% (7/18)   Writing objects:  44% (8/18)   Writing objects:  50% (9/18)   Writing objects:  55% (10/18)   Writing objects:  61% (11/18)   Writing objects:  66% (12/18)   Writing objects:  72% (13/18)   Writing objects:  77% (14/18)   Writing objects:  83% (15/18)   Writing objects:  88% (16/18)   Writing objects:  94% (17/18)   Writing objects: 100% (18/18)   Writing objects: 100% (18/18), 2.78 KiB | 568.00 KiB/s, done.
+Total 18 (delta 11), reused 0 (delta 0)
+remote: Resolving deltas:   0% (0/11)[Kremote: Resolving deltas:   9% (1/11)[Kremote: Resolving deltas:  18% (2/11)[Kremote: Resolving deltas:  27% (3/11)[Kremote: Resolving deltas:  36% (4/11)[Kremote: Resolving deltas:  45% (5/11)[Kremote: Resolving deltas:  54% (6/11)[Kremote: Resolving deltas:  63% (7/11)[Kremote: Resolving deltas:  72% (8/11)[Kremote: Resolving deltas:  81% (9/11)[Kremote: Resolving deltas:  90% (10/11)[Kremote: Resolving deltas: 100% (11/11)[Kremote: Resolving deltas: 100% (11/11), completed with 11 local objects.[K
+To https://github.com/rcamacho657/Project-3_website.git
+   0862348..ad83b12  master -> master
+]0;/stor/home/rgc843/Website Project 3]0;rgc843@educcomp03: ~/Website Project 3[01;32mrgc843@educcomp03[00m:[01;34m~/Website Project 3[00m$ [K]0;rgc843@educcomp03: ~/Website Project 3[01;32mrgc843@educcomp03[00m:[01;34m~/Website Project 3[00m$ [K]0;rgc843@educcomp03: ~/Website Project 3[01;32mrgc843@educcomp03[00m:[01;34m~/Website Project 3[00m$ [K]0;rgc843@educcomp03: ~/Website Project 3[01;32mrgc843@educcomp03[00m:[01;34m~/Website Project 3[00m$ [K]0;rgc843@educcomp03: ~/Website Project 3[01;32mrgc843@educcomp03[00m:[01;34m~/Website Project 3[00m$ [K]0;rgc843@educcomp03: ~/Website Project 3[01;32mrgc843@educcomp03[00m:[01;34m~/Website Project 3[00m$ [K]0;rgc843@educcomp03: ~/Website Project 3[01;32mrgc843@educcomp03[00m:[01;34m~/Website Project 3[00m$ [K]0;rgc843@educcomp03: ~/Website Project 3[01;32mrgc843@educcomp03[00m:[01;34m~/Website Project 3[00m$ [K]0;rgc843@educcomp03: ~/Website Project 3[01;32mrgc843@educcomp03[00m:[01;34m~/Website Project 3[00m$ [K]0;rgc843@educcomp03: ~/Website Project 3[01;32mrgc843@educcomp03[00m:[01;34m~/Website Project 3[00m$ git add .
