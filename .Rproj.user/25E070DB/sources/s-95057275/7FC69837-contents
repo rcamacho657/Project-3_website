@@ -9,7 +9,7 @@
     {{ end }}
 
     {{ if .Site.Params.Social.Twitter }}
-      <li><a href="https://twitter.com/rcamacho657{{ .Site.Params.Social.Twitter }}"><i class="fa fa-twitter"></i></a></li>
+      <li><a href="https://twitter.com/{{ .Site.Params.Social.Twitter }}"><i class="fa fa-twitter"></i></a></li>
     {{ end }}
 
     {{ if .Site.Params.Social.LinkedIn }}
